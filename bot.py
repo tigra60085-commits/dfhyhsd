@@ -24,6 +24,8 @@ from states import (
     SEARCH_INPUT, SEARCH_RESULT,
     NT_SELECT, GLOSSARY_BROWSE, PROGRESS_VIEW, TIP_VIEW,
     COMPARE_SELECT1, COMPARE_SELECT2,
+    PHARMA_COMPARE_INPUT, PHARMA_COMPARE_CONTEXT, PHARMA_COMPARE_FOCUS, PHARMA_COMPARE_AUDIENCE,
+    PODCAST_TOPIC, PODCAST_CASE, PODCAST_DURATION,
 )
 from handlers.start import start_command, main_menu_handler
 from handlers.drug import drug_class_callback, drug_list_callback, drug_detail_callback
@@ -43,6 +45,13 @@ from handlers.progress import progress_back_callback
 from handlers.misc import (
     nt_select_callback, glossary_callback, tip_back_callback,
     compare_select1_callback, compare_select2_callback,
+)
+from handlers.pharma_compare import (
+    pharma_compare_drugs_message, pharma_compare_context_message,
+    pharma_compare_focus_callback, pharma_compare_audience_callback,
+)
+from handlers.podcast_dialog import (
+    podcast_topic_message, podcast_case_message, podcast_duration_callback,
 )
 
 logging.basicConfig(
@@ -150,6 +159,33 @@ def build_conv_handler() -> ConversationHandler:
             ],
             COMPARE_SELECT2: [
                 CallbackQueryHandler(compare_select2_callback),
+            ],
+            # ── Pharma-compare ─────────────────────────────────────────────────
+            PHARMA_COMPARE_INPUT: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, pharma_compare_drugs_message),
+                CallbackQueryHandler(pharma_compare_audience_callback, pattern=r"^back:"),
+            ],
+            PHARMA_COMPARE_CONTEXT: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, pharma_compare_context_message),
+                CallbackQueryHandler(pharma_compare_audience_callback, pattern=r"^back:"),
+            ],
+            PHARMA_COMPARE_FOCUS: [
+                CallbackQueryHandler(pharma_compare_focus_callback),
+            ],
+            PHARMA_COMPARE_AUDIENCE: [
+                CallbackQueryHandler(pharma_compare_audience_callback),
+            ],
+            # ── Podcast dialog ─────────────────────────────────────────────────
+            PODCAST_TOPIC: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, podcast_topic_message),
+                CallbackQueryHandler(podcast_duration_callback, pattern=r"^back:"),
+            ],
+            PODCAST_CASE: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, podcast_case_message),
+                CallbackQueryHandler(podcast_duration_callback, pattern=r"^back:"),
+            ],
+            PODCAST_DURATION: [
+                CallbackQueryHandler(podcast_duration_callback),
             ],
         },
         fallbacks=[

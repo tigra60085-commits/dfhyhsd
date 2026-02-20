@@ -10,7 +10,7 @@ def main_menu_keyboard() -> ReplyKeyboardMarkup:
         [KeyboardButton("⚠️ Взаимодействия"), KeyboardButton("🔍 Поиск")],
         [KeyboardButton("🧠 Нейромедиаторы"), KeyboardButton("📊 Мой прогресс")],
         [KeyboardButton("📖 Глоссарий"), KeyboardButton("💡 Совет дня")],
-        [KeyboardButton("⚖️ Сравнить классы")],
+        [KeyboardButton("🔬 Фарма-анализ"), KeyboardButton("🎙️ Подкаст")],
     ]
     return ReplyKeyboardMarkup(buttons, resize_keyboard=True)
 
@@ -231,3 +231,60 @@ def compare_result_keyboard() -> InlineKeyboardMarkup:
 
 def back_keyboard(callback_data: str = "back:main") -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ Назад", callback_data=callback_data)]])
+
+
+# ─── Pharma-compare keyboards ─────────────────────────────────────────────────
+
+PHARMA_FOCUS_OPTIONS = [
+    ("🏥 Общий обзор", "Общий обзор"),
+    ("👴 Безопасность у пожилых", "Безопасность у пожилых"),
+    ("🤰 Беременность и лактация", "Беременность и лактация"),
+    ("⚖️ Метаболический профиль", "Метаболический профиль"),
+    ("❤️ Кардиологическая безопасность", "Кардиологическая безопасность"),
+    ("⚠️ Взаимодействия", "Взаимодействия"),
+    ("💊 Комплаентность", "Комплаентность"),
+]
+
+
+def pharma_compare_focus_keyboard() -> InlineKeyboardMarkup:
+    buttons = [[InlineKeyboardButton(label, callback_data=f"pcfocus:{val}")]
+               for label, val in PHARMA_FOCUS_OPTIONS]
+    buttons.append([InlineKeyboardButton("⬅️ Назад", callback_data="back:main")])
+    return InlineKeyboardMarkup(buttons)
+
+
+def pharma_compare_audience_keyboard() -> InlineKeyboardMarkup:
+    buttons = [
+        [InlineKeyboardButton("🎓 Ординатор", callback_data="pcaud:resident")],
+        [InlineKeyboardButton("🔬 Специалист", callback_data="pcaud:specialist")],
+        [InlineKeyboardButton("⬅️ Назад", callback_data="back:main")],
+    ]
+    return InlineKeyboardMarkup(buttons)
+
+
+def pharma_compare_result_keyboard() -> InlineKeyboardMarkup:
+    buttons = [
+        [InlineKeyboardButton("🔄 Новый анализ", callback_data="pc:again")],
+        [InlineKeyboardButton("🏠 Главное меню", callback_data="back:main")],
+    ]
+    return InlineKeyboardMarkup(buttons)
+
+
+# ─── Podcast-dialog keyboards ─────────────────────────────────────────────────
+
+def podcast_duration_keyboard() -> InlineKeyboardMarkup:
+    buttons = [
+        [InlineKeyboardButton("⏱ ~15 мин (short)", callback_data="pdur:short")],
+        [InlineKeyboardButton("⏱ ~30 мин (medium)", callback_data="pdur:medium")],
+        [InlineKeyboardButton("⏱ ~45 мин (long)", callback_data="pdur:long")],
+        [InlineKeyboardButton("⬅️ Назад", callback_data="back:main")],
+    ]
+    return InlineKeyboardMarkup(buttons)
+
+
+def podcast_result_keyboard() -> InlineKeyboardMarkup:
+    buttons = [
+        [InlineKeyboardButton("🎙️ Новый эпизод", callback_data="pd:again")],
+        [InlineKeyboardButton("🏠 Главное меню", callback_data="back:main")],
+    ]
+    return InlineKeyboardMarkup(buttons)

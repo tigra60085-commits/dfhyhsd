@@ -35,4 +35,13 @@
     TIP_VIEW,
     COMPARE_SELECT1,
     COMPARE_SELECT2,
-) = range(28)
+    # Pharma-compare (detailed drug comparison)
+    PHARMA_COMPARE_INPUT,
+    PHARMA_COMPARE_CONTEXT,
+    PHARMA_COMPARE_FOCUS,
+    PHARMA_COMPARE_AUDIENCE,
+    # Podcast dialog generator
+    PODCAST_TOPIC,
+    PODCAST_CASE,
+    PODCAST_DURATION,
+) = range(35)

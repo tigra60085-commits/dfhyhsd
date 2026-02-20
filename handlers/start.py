@@ -7,6 +7,7 @@ from states import (
     MAIN_MENU, DRUG_CLASS_SELECT, QUIZ_MENU, FLASHCARD_CATEGORY,
     CASE_LIST, INTER_DRUG1, SEARCH_INPUT, NT_SELECT, PROGRESS_VIEW,
     GLOSSARY_BROWSE, TIP_VIEW, COMPARE_SELECT1,
+    PHARMA_COMPARE_INPUT, PODCAST_TOPIC,
 )
 from keyboards.menus import main_menu_keyboard
 from db.queries import get_or_create_user
@@ -20,7 +21,9 @@ WELCOME_TEXT = (
     "• 🏥 Клинические случаи\n"
     "• ⚠️ Взаимодействия лекарств\n"
     "• 🧠 Нейромедиаторные системы\n"
-    "• 📖 Глоссарий терминов\n\n"
+    "• 📖 Глоссарий терминов\n"
+    "• 🔬 Детальный сравнительный анализ препаратов (.docx)\n"
+    "• 🎙️ Генератор подкаст-эпизода (.docx)\n\n"
     "Выберите раздел:"
 )
 
@@ -50,7 +53,8 @@ async def main_menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         "📊 Мой прогресс": PROGRESS_VIEW,
         "📖 Глоссарий": GLOSSARY_BROWSE,
         "💡 Совет дня": TIP_VIEW,
-        "⚖️ Сравнить классы": COMPARE_SELECT1,
+        "🔬 Фарма-анализ": PHARMA_COMPARE_INPUT,
+        "🎙️ Подкаст": PODCAST_TOPIC,
     }
 
     next_state = routing.get(text)
@@ -95,5 +99,11 @@ async def main_menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     elif next_state == COMPARE_SELECT1:
         from handlers.misc import show_compare_select1
         return await show_compare_select1(update, context)
+    elif next_state == PHARMA_COMPARE_INPUT:
+        from handlers.pharma_compare import start_pharma_compare
+        return await start_pharma_compare(update, context)
+    elif next_state == PODCAST_TOPIC:
+        from handlers.podcast_dialog import start_podcast
+        return await start_podcast(update, context)
 
     return MAIN_MENU
