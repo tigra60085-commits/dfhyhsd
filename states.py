@@ -48,4 +48,20 @@
     CASE_FORMAT_INPUT,
     CASE_FORMAT_FOCUS,
     CASE_FORMAT_OPTIONS,
-) = range(38)
+    # Dose calculator
+    DOSE_CALC_DRUG,
+    DOSE_CALC_RESULT,
+    # Monitoring guide
+    MONITOR_DRUG,
+    MONITOR_RESULT,
+    # Scale calculator
+    SCALE_SELECT,
+    SCALE_INPUT,
+    SCALE_RESULT,
+    # Pregnancy & lactation safety
+    PREG_DRUG,
+    PREG_RESULT,
+    # Withdrawal / tapering guide
+    WITHDRAW_DRUG,
+    WITHDRAW_RESULT,
+) = range(50)

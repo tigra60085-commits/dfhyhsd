@@ -11,7 +11,9 @@ def main_menu_keyboard() -> ReplyKeyboardMarkup:
         [KeyboardButton("🧠 Нейромедиаторы"), KeyboardButton("📊 Мой прогресс")],
         [KeyboardButton("📖 Глоссарий"), KeyboardButton("💡 Совет дня")],
         [KeyboardButton("🔬 Фарма-анализ"), KeyboardButton("🎙️ Подкаст")],
-        [KeyboardButton("📋 Кейс")],
+        [KeyboardButton("📋 Кейс"), KeyboardButton("💉 Дозы")],
+        [KeyboardButton("🔭 Мониторинг"), KeyboardButton("📊 Шкалы")],
+        [KeyboardButton("🤰 Беременность"), KeyboardButton("🚫 Отмена")],
     ]
     return ReplyKeyboardMarkup(buttons, resize_keyboard=True)
 
@@ -326,6 +328,77 @@ def case_format_options_keyboard() -> InlineKeyboardMarkup:
 def case_format_result_keyboard() -> InlineKeyboardMarkup:
     buttons = [
         [InlineKeyboardButton("📋 Новый кейс", callback_data="cf:again")],
+        [InlineKeyboardButton("🏠 Главное меню", callback_data="back:main")],
+    ]
+    return InlineKeyboardMarkup(buttons)
+
+
+# ─── Dose-calculator keyboards ────────────────────────────────────────────────
+
+def dose_calc_result_keyboard() -> InlineKeyboardMarkup:
+    buttons = [
+        [InlineKeyboardButton("🔄 Другой препарат", callback_data="dc:again")],
+        [InlineKeyboardButton("🏠 Главное меню", callback_data="back:main")],
+    ]
+    return InlineKeyboardMarkup(buttons)
+
+
+# ─── Monitoring-guide keyboards ───────────────────────────────────────────────
+
+def monitor_result_keyboard() -> InlineKeyboardMarkup:
+    buttons = [
+        [InlineKeyboardButton("🔄 Другой препарат", callback_data="mon:again")],
+        [InlineKeyboardButton("🏠 Главное меню", callback_data="back:main")],
+    ]
+    return InlineKeyboardMarkup(buttons)
+
+
+# ─── Scale-calculator keyboards ───────────────────────────────────────────────
+
+_SCALE_LIST = [
+    ("PHQ-9 (Депрессия)", "PHQ9"),
+    ("GAD-7 (Тревога)", "GAD7"),
+    ("HAM-D (Депрессия)", "HAMD"),
+    ("MADRS (Депрессия)", "MADRS"),
+    ("PANSS (Шизофрения)", "PANSS"),
+    ("CGI-S (Тяжесть)", "CGIS"),
+    ("GAF (Функционирование)", "GAF"),
+    ("BPRS (Психопатология)", "BPRS"),
+    ("C-SSRS (Суицид)", "CSSRS"),
+    ("YMRS (Мания)", "YMRS"),
+]
+
+
+def scale_select_keyboard() -> InlineKeyboardMarkup:
+    buttons = [[InlineKeyboardButton(label, callback_data=f"scale:{code}")]
+               for label, code in _SCALE_LIST]
+    buttons.append([InlineKeyboardButton("⬅️ Назад", callback_data="back:main")])
+    return InlineKeyboardMarkup(buttons)
+
+
+def scale_result_keyboard() -> InlineKeyboardMarkup:
+    buttons = [
+        [InlineKeyboardButton("🔄 Другая шкала", callback_data="scale:again")],
+        [InlineKeyboardButton("🏠 Главное меню", callback_data="back:main")],
+    ]
+    return InlineKeyboardMarkup(buttons)
+
+
+# ─── Pregnancy-safety keyboards ───────────────────────────────────────────────
+
+def preg_result_keyboard() -> InlineKeyboardMarkup:
+    buttons = [
+        [InlineKeyboardButton("🔄 Другой препарат", callback_data="preg:again")],
+        [InlineKeyboardButton("🏠 Главное меню", callback_data="back:main")],
+    ]
+    return InlineKeyboardMarkup(buttons)
+
+
+# ─── Withdrawal-guide keyboards ───────────────────────────────────────────────
+
+def withdraw_result_keyboard() -> InlineKeyboardMarkup:
+    buttons = [
+        [InlineKeyboardButton("🔄 Другой препарат", callback_data="wd:again")],
         [InlineKeyboardButton("🏠 Главное меню", callback_data="back:main")],
     ]
     return InlineKeyboardMarkup(buttons)

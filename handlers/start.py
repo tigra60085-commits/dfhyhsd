@@ -7,7 +7,8 @@ from states import (
     MAIN_MENU, DRUG_CLASS_SELECT, QUIZ_MENU, FLASHCARD_CATEGORY,
     CASE_LIST, INTER_DRUG1, SEARCH_INPUT, NT_SELECT, PROGRESS_VIEW,
     GLOSSARY_BROWSE, TIP_VIEW, COMPARE_SELECT1,
-    PHARMA_COMPARE_INPUT, PODCAST_TOPIC,
+    PHARMA_COMPARE_INPUT, PODCAST_TOPIC, CASE_FORMAT_INPUT,
+    DOSE_CALC_DRUG, MONITOR_DRUG, SCALE_SELECT, PREG_DRUG, WITHDRAW_DRUG,
 )
 from keyboards.menus import main_menu_keyboard
 from db.queries import get_or_create_user
@@ -23,7 +24,13 @@ WELCOME_TEXT = (
     "• 🧠 Нейромедиаторные системы\n"
     "• 📖 Глоссарий терминов\n"
     "• 🔬 Детальный сравнительный анализ препаратов (.docx)\n"
-    "• 🎙️ Генератор подкаст-эпизода (.docx)\n\n"
+    "• 🎙️ Генератор подкаст-эпизода (.docx)\n"
+    "• 📋 Форматирование клинического кейса (.docx)\n"
+    "• 💉 Дозирование препаратов\n"
+    "• 🔭 Протоколы мониторинга\n"
+    "• 📊 Психометрические шкалы\n"
+    "• 🤰 Безопасность при беременности/лактации\n"
+    "• 🚫 Протоколы отмены препаратов\n\n"
     "Выберите раздел:"
 )
 
@@ -55,6 +62,12 @@ async def main_menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         "💡 Совет дня": TIP_VIEW,
         "🔬 Фарма-анализ": PHARMA_COMPARE_INPUT,
         "🎙️ Подкаст": PODCAST_TOPIC,
+        "📋 Кейс": CASE_FORMAT_INPUT,
+        "💉 Дозы": DOSE_CALC_DRUG,
+        "🔭 Мониторинг": MONITOR_DRUG,
+        "📊 Шкалы": SCALE_SELECT,
+        "🤰 Беременность": PREG_DRUG,
+        "🚫 Отмена": WITHDRAW_DRUG,
     }
 
     next_state = routing.get(text)
@@ -105,5 +118,23 @@ async def main_menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     elif next_state == PODCAST_TOPIC:
         from handlers.podcast_dialog import start_podcast
         return await start_podcast(update, context)
+    elif next_state == CASE_FORMAT_INPUT:
+        from handlers.case_format import start_case_format
+        return await start_case_format(update, context)
+    elif next_state == DOSE_CALC_DRUG:
+        from handlers.dose_calc import start_dose_calc
+        return await start_dose_calc(update, context)
+    elif next_state == MONITOR_DRUG:
+        from handlers.monitor_guide import start_monitor_guide
+        return await start_monitor_guide(update, context)
+    elif next_state == SCALE_SELECT:
+        from handlers.scale_calc import start_scale_calc
+        return await start_scale_calc(update, context)
+    elif next_state == PREG_DRUG:
+        from handlers.preg_safety import start_preg_safety
+        return await start_preg_safety(update, context)
+    elif next_state == WITHDRAW_DRUG:
+        from handlers.withdraw_guide import start_withdraw_guide
+        return await start_withdraw_guide(update, context)
 
     return MAIN_MENU

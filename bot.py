@@ -26,6 +26,12 @@ from states import (
     COMPARE_SELECT1, COMPARE_SELECT2,
     PHARMA_COMPARE_INPUT, PHARMA_COMPARE_CONTEXT, PHARMA_COMPARE_FOCUS, PHARMA_COMPARE_AUDIENCE,
     PODCAST_TOPIC, PODCAST_CASE, PODCAST_DURATION,
+    CASE_FORMAT_INPUT, CASE_FORMAT_FOCUS, CASE_FORMAT_OPTIONS,
+    DOSE_CALC_DRUG, DOSE_CALC_RESULT,
+    MONITOR_DRUG, MONITOR_RESULT,
+    SCALE_SELECT, SCALE_INPUT, SCALE_RESULT,
+    PREG_DRUG, PREG_RESULT,
+    WITHDRAW_DRUG, WITHDRAW_RESULT,
 )
 from handlers.start import start_command, main_menu_handler
 from handlers.drug import drug_class_callback, drug_list_callback, drug_detail_callback
@@ -52,6 +58,24 @@ from handlers.pharma_compare import (
 )
 from handlers.podcast_dialog import (
     podcast_topic_message, podcast_case_message, podcast_duration_callback,
+)
+from handlers.case_format import (
+    case_format_input_message, case_format_focus_callback, case_format_options_callback,
+)
+from handlers.dose_calc import (
+    dose_calc_drug_message, dose_calc_result_callback,
+)
+from handlers.monitor_guide import (
+    monitor_drug_message, monitor_result_callback,
+)
+from handlers.scale_calc import (
+    scale_select_callback, scale_input_message, scale_result_callback,
+)
+from handlers.preg_safety import (
+    preg_drug_message, preg_result_callback,
+)
+from handlers.withdraw_guide import (
+    withdraw_drug_message, withdraw_result_callback,
 )
 
 logging.basicConfig(
@@ -186,6 +210,60 @@ def build_conv_handler() -> ConversationHandler:
             ],
             PODCAST_DURATION: [
                 CallbackQueryHandler(podcast_duration_callback),
+            ],
+            # ── Case-format ────────────────────────────────────────────────────
+            CASE_FORMAT_INPUT: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, case_format_input_message),
+                CallbackQueryHandler(case_format_focus_callback, pattern=r"^back:"),
+            ],
+            CASE_FORMAT_FOCUS: [
+                CallbackQueryHandler(case_format_focus_callback),
+            ],
+            CASE_FORMAT_OPTIONS: [
+                CallbackQueryHandler(case_format_options_callback),
+            ],
+            # ── Dose calculator ────────────────────────────────────────────────
+            DOSE_CALC_DRUG: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, dose_calc_drug_message),
+                CallbackQueryHandler(dose_calc_result_callback, pattern=r"^back:"),
+            ],
+            DOSE_CALC_RESULT: [
+                CallbackQueryHandler(dose_calc_result_callback),
+            ],
+            # ── Monitoring guide ───────────────────────────────────────────────
+            MONITOR_DRUG: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, monitor_drug_message),
+                CallbackQueryHandler(monitor_result_callback, pattern=r"^back:"),
+            ],
+            MONITOR_RESULT: [
+                CallbackQueryHandler(monitor_result_callback),
+            ],
+            # ── Scale calculator ───────────────────────────────────────────────
+            SCALE_SELECT: [
+                CallbackQueryHandler(scale_select_callback),
+            ],
+            SCALE_INPUT: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, scale_input_message),
+                CallbackQueryHandler(scale_result_callback, pattern=r"^(back:|scale:)"),
+            ],
+            SCALE_RESULT: [
+                CallbackQueryHandler(scale_result_callback),
+            ],
+            # ── Pregnancy safety ───────────────────────────────────────────────
+            PREG_DRUG: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, preg_drug_message),
+                CallbackQueryHandler(preg_result_callback, pattern=r"^back:"),
+            ],
+            PREG_RESULT: [
+                CallbackQueryHandler(preg_result_callback),
+            ],
+            # ── Withdrawal guide ───────────────────────────────────────────────
+            WITHDRAW_DRUG: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, withdraw_drug_message),
+                CallbackQueryHandler(withdraw_result_callback, pattern=r"^back:"),
+            ],
+            WITHDRAW_RESULT: [
+                CallbackQueryHandler(withdraw_result_callback),
             ],
         },
         fallbacks=[
