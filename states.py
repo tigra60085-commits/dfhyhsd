@@ -44,4 +44,8 @@
     PODCAST_TOPIC,
     PODCAST_CASE,
     PODCAST_DURATION,
-) = range(35)
+    # Clinical case formatter (case-format skill)
+    CASE_FORMAT_INPUT,
+    CASE_FORMAT_FOCUS,
+    CASE_FORMAT_OPTIONS,
+) = range(38)

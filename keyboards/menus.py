@@ -11,6 +11,7 @@ def main_menu_keyboard() -> ReplyKeyboardMarkup:
         [KeyboardButton("🧠 Нейромедиаторы"), KeyboardButton("📊 Мой прогресс")],
         [KeyboardButton("📖 Глоссарий"), KeyboardButton("💡 Совет дня")],
         [KeyboardButton("🔬 Фарма-анализ"), KeyboardButton("🎙️ Подкаст")],
+        [KeyboardButton("📋 Кейс")],
     ]
     return ReplyKeyboardMarkup(buttons, resize_keyboard=True)
 
@@ -285,6 +286,46 @@ def podcast_duration_keyboard() -> InlineKeyboardMarkup:
 def podcast_result_keyboard() -> InlineKeyboardMarkup:
     buttons = [
         [InlineKeyboardButton("🎙️ Новый эпизод", callback_data="pd:again")],
+        [InlineKeyboardButton("🏠 Главное меню", callback_data="back:main")],
+    ]
+    return InlineKeyboardMarkup(buttons)
+
+
+# ─── Case-format keyboards ─────────────────────────────────────────────────────
+
+CASE_FOCUS_OPTIONS = [
+    ("🔎 Дифференциальная диагностика", "dxdiff"),
+    ("💊 Выбор фармакотерапии", "pharma"),
+    ("🔒 Оценка рисков (суицид, агрессия)", "risk"),
+    ("🔄 Резистентность и смена тактики", "resistance"),
+    ("👴 Ведение пожилых пациентов", "elderly"),
+    ("🧩 Коморбидность", "comorbidity"),
+    ("📋 Общий разбор", "general"),
+]
+
+
+def case_format_focus_keyboard() -> InlineKeyboardMarkup:
+    buttons = [[InlineKeyboardButton(label, callback_data=f"cff:{val}")]
+               for label, val in CASE_FOCUS_OPTIONS]
+    buttons.append([InlineKeyboardButton("⬅️ Назад", callback_data="back:main")])
+    return InlineKeyboardMarkup(buttons)
+
+
+def case_format_options_keyboard() -> InlineKeyboardMarkup:
+    """Audience + anonymization combined."""
+    buttons = [
+        [InlineKeyboardButton("🎓 Ординатор + анонимизация ✅", callback_data="cfopt:resident:1")],
+        [InlineKeyboardButton("🎓 Ординатор — без анонимизации", callback_data="cfopt:resident:0")],
+        [InlineKeyboardButton("🔬 Специалист + анонимизация ✅", callback_data="cfopt:specialist:1")],
+        [InlineKeyboardButton("🔬 Специалист — без анонимизации", callback_data="cfopt:specialist:0")],
+        [InlineKeyboardButton("⬅️ Назад", callback_data="back:main")],
+    ]
+    return InlineKeyboardMarkup(buttons)
+
+
+def case_format_result_keyboard() -> InlineKeyboardMarkup:
+    buttons = [
+        [InlineKeyboardButton("📋 Новый кейс", callback_data="cf:again")],
         [InlineKeyboardButton("🏠 Главное меню", callback_data="back:main")],
     ]
     return InlineKeyboardMarkup(buttons)
