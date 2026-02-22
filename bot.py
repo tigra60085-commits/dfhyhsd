@@ -33,7 +33,7 @@ from states import (
     PREG_DRUG, PREG_RESULT,
     WITHDRAW_DRUG, WITHDRAW_RESULT,
 )
-from handlers.start import start_command, main_menu_handler
+from handlers.start import start_command, main_menu_handler, help_command, error_handler
 from handlers.drug import drug_class_callback, drug_list_callback, drug_detail_callback
 from handlers.quiz import (
     quiz_menu_callback, quiz_category_callback, quiz_difficulty_callback,
@@ -77,6 +77,7 @@ from handlers.preg_safety import (
 from handlers.withdraw_guide import (
     withdraw_drug_message, withdraw_result_callback,
 )
+from handlers.admin import admin_stats_command, admin_reload_command
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -287,6 +288,14 @@ def main() -> None:
     )
 
     app.add_handler(build_conv_handler())
+
+    # Stand-alone command handlers (work outside conversation too)
+    app.add_handler(CommandHandler("help", help_command))
+    app.add_handler(CommandHandler("admin_stats", admin_stats_command))
+    app.add_handler(CommandHandler("admin_reload", admin_reload_command))
+
+    # Global error handler
+    app.add_error_handler(error_handler)
 
     logger.info("Bot started. Polling...")
     app.run_polling(drop_pending_updates=True)

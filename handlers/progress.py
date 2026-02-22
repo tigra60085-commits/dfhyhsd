@@ -5,14 +5,24 @@ from telegram.ext import ContextTypes
 
 from states import PROGRESS_VIEW, MAIN_MENU
 from keyboards.menus import main_menu_keyboard, back_keyboard
-from db.queries import get_user_stats
+from db.queries import get_user_stats, get_streak, touch_streak
 
 
 async def show_progress(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     user_id = update.effective_user.id
     stats = await get_user_stats(user_id)
+    streak = await touch_streak(user_id)
 
     lines = ["📊 *Ваш прогресс*\n"]
+
+    # Streak block
+    current = streak["current_streak"]
+    longest = streak["longest_streak"]
+    fire = "🔥" * min(current, 5) if current > 0 else ""
+    lines.append(f"*Стрик активности:* {fire} {current} {'день' if current == 1 else 'дней'}")
+    if longest > current:
+        lines.append(f"  _Рекорд: {longest} дней_")
+    lines.append("")
 
     # Quiz statistics
     total = stats["total_questions"]

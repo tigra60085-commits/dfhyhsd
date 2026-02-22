@@ -47,10 +47,32 @@ CREATE TABLE IF NOT EXISTS flashcard_ratings (
 """
 
 
+CREATE_USER_PREFS = """
+CREATE TABLE IF NOT EXISTS user_prefs (
+    user_id        INTEGER PRIMARY KEY,
+    quiz_difficulty TEXT NOT NULL DEFAULT 'all',
+    daily_reminder INTEGER NOT NULL DEFAULT 0,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+)
+"""
+
+CREATE_STREAKS = """
+CREATE TABLE IF NOT EXISTS streaks (
+    user_id         INTEGER PRIMARY KEY,
+    current_streak  INTEGER NOT NULL DEFAULT 0,
+    longest_streak  INTEGER NOT NULL DEFAULT 0,
+    last_active_date TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+)
+"""
+
+
 async def create_tables() -> None:
     async with aiosqlite.connect(DATABASE_PATH) as db:
         await db.execute(CREATE_USERS)
         await db.execute(CREATE_QUIZ_SCORES)
         await db.execute(CREATE_PROGRESS)
         await db.execute(CREATE_FLASHCARD_RATINGS)
+        await db.execute(CREATE_USER_PREFS)
+        await db.execute(CREATE_STREAKS)
         await db.commit()

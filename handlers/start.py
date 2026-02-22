@@ -1,5 +1,7 @@
 """Start handler and main menu routing."""
 
+import logging
+
 from telegram import Update
 from telegram.ext import ContextTypes
 
@@ -11,7 +13,9 @@ from states import (
     DOSE_CALC_DRUG, MONITOR_DRUG, SCALE_SELECT, PREG_DRUG, WITHDRAW_DRUG,
 )
 from keyboards.menus import main_menu_keyboard
-from db.queries import get_or_create_user
+from db.queries import get_or_create_user, touch_streak
+
+logger = logging.getLogger(__name__)
 
 
 WELCOME_TEXT = (
@@ -35,15 +39,65 @@ WELCOME_TEXT = (
 )
 
 
+HELP_TEXT = (
+    "ℹ️ *Справка — Психофармакологический тьютор*\n\n"
+    "*Доступные разделы:*\n"
+    "• 💊 Препараты — справочник по 50+ препаратам\n"
+    "• 📝 Тест — квизы с адаптивной сложностью\n"
+    "• 🃏 Карточки — флеш-карточки для запоминания\n"
+    "• 🏥 Клинические случаи — 25 разборов\n"
+    "• ⚠️ Взаимодействия — 50+ пар взаимодействий\n"
+    "• 🔍 Поиск — нечёткий поиск по базе препаратов\n"
+    "• 🧠 Нейромедиаторы — DA, 5-HT, NE, ГАМК, Глу, АЦХ\n"
+    "• 📊 Мой прогресс — статистика + стрик\n"
+    "• 📖 Глоссарий — термины психофармакологии\n"
+    "• 🔬 Фарма-анализ — детальное сравнение препаратов (.docx)\n"
+    "• 💉 Дозы — дозирование и фармакокинетика\n"
+    "• 🔭 Мониторинг — протоколы мониторинга\n"
+    "• 📊 Шкалы — PHQ-9, GAD-7, HAMD, PANSS и др.\n"
+    "• 🤰 Беременность — безопасность при беременности/лактации\n"
+    "• 🚫 Отмена — протоколы отмены препаратов\n\n"
+    "*Команды:*\n"
+    "/start — перезапустить бот\n"
+    "/help — эта справка\n\n"
+    "_По вопросам и предложениям: обратитесь к администратору._"
+)
+
+
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     user = update.effective_user
-    await get_or_create_user(user.id, user.username)
+    try:
+        await get_or_create_user(user.id, user.username)
+        await touch_streak(user.id)
+    except Exception as e:
+        logger.warning("DB error in start_command for user %s: %s", user.id, e)
     await update.message.reply_text(
         WELCOME_TEXT,
         parse_mode="Markdown",
         reply_markup=main_menu_keyboard(),
     )
     return MAIN_MENU
+
+
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle /help command — works outside conversation too."""
+    await update.message.reply_text(
+        HELP_TEXT,
+        parse_mode="Markdown",
+        reply_markup=main_menu_keyboard(),
+    )
+
+
+async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Global error handler — logs the error and notifies the user."""
+    logger.error("Unhandled exception: %s", context.error, exc_info=context.error)
+    if isinstance(update, Update) and update.effective_message:
+        try:
+            await update.effective_message.reply_text(
+                "Произошла ошибка. Попробуйте снова или нажмите /start для перезапуска."
+            )
+        except Exception:
+            pass
 
 
 async def main_menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:

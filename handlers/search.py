@@ -5,7 +5,7 @@ from telegram.ext import ContextTypes
 
 from states import SEARCH_INPUT, SEARCH_RESULT, MAIN_MENU
 from keyboards.menus import search_result_keyboard, main_menu_keyboard, back_keyboard
-from data.drugs import search_drugs
+from data.drugs import search_drugs, fuzzy_suggest
 from data.glossary import GLOSSARY
 
 
@@ -36,10 +36,18 @@ async def search_input_message(update: Update, context: ContextTypes.DEFAULT_TYP
     ]
 
     if not drug_results and not glossary_results:
-        text = (
-            f"🔍 По запросу *«{query_text}»* ничего не найдено.\n\n"
-            f"Попробуйте другой запрос (например: «флуоксетин», «SSRI», «депрессия»)."
-        )
+        suggestions = fuzzy_suggest(query_text)
+        if suggestions:
+            sugg_str = ", ".join(f"*{s}*" for s in suggestions)
+            text = (
+                f"🔍 По запросу *«{query_text}»* ничего не найдено.\n\n"
+                f"Возможно, вы имели в виду: {sugg_str}?"
+            )
+        else:
+            text = (
+                f"🔍 По запросу *«{query_text}»* ничего не найдено.\n\n"
+                f"Попробуйте другой запрос (например: «флуоксетин», «SSRI», «депрессия»)."
+            )
     else:
         lines = [f"🔍 Результаты по запросу *«{query_text}»*\n"]
 
