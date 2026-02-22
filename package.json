@@ -4,7 +4,9 @@
   "description": "Simple encrypted messenger demo with WebSocket relay.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "check": "node --check server.js",
+    "bot": "node server.js"
   },
   "dependencies": {
     "express": "^4.19.2",
