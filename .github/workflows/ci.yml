@@ -7,48 +7,26 @@ on:
 
 jobs:
   lint:
-    name: Lint (black + flake8)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
-
-      - name: Install lint tools
-        run: pip install black==23.12.0 flake8==7.0.0
-
-      - name: black --check
-        run: black --check --line-length 120 .
-
-      - name: flake8
-        run: flake8 . --max-line-length=120 --exclude=.git,__pycache__,.venv
+      - run: pip install black==23.12.0 flake8==7.0.0
+      - run: black --check --line-length 120 .
+      - run: flake8 . --max-line-length=120 --exclude=.git,__pycache__,venv
 
   test:
-    name: Tests (pytest)
     runs-on: ubuntu-latest
     env:
       BOT_TOKEN: test_token_for_ci
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt -r requirements-dev.txt
-
-      - name: Run tests
-        run: pytest tests/ --cov=. --cov-report=term-missing -q
-
-      - name: Upload coverage report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: .coverage
+      - run: pip install -r requirements.txt -r requirements-dev.txt
+      - run: pytest tests/ --cov=. --cov-report=term-missing -q
