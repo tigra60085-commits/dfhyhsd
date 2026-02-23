@@ -1,0 +1,6 @@
+{
+    "terminal.integrated.tabs.defaultColor": "terminal.ansiGreen",
+    "terminal.integrated.suggest.runOnEnter": "always",
+    "terminal.integrated.suggest.selectionMode": "always",
+    "terminal.integrated.suggest.insertTrailingSpace": true
+}
