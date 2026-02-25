@@ -64,4 +64,4 @@
     # Withdrawal / tapering guide
     WITHDRAW_DRUG,
     WITHDRAW_RESULT,
-) = range(50)
+) = range(49)
