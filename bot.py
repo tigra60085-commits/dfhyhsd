@@ -33,7 +33,7 @@ from states import (
     PREG_DRUG, PREG_RESULT,
     WITHDRAW_DRUG, WITHDRAW_RESULT,
 )
-from handlers.start import start_command, main_menu_handler, help_command, cancel_command, error_handler
+from handlers.start import start_command, main_menu_callback, help_command, cancel_command, error_handler
 from handlers.drug import drug_class_callback, drug_list_callback, drug_detail_callback
 from handlers.quiz import (
     quiz_menu_callback, quiz_category_callback, quiz_difficulty_callback,
@@ -90,7 +90,7 @@ def build_conv_handler() -> ConversationHandler:
         entry_points=[CommandHandler("start", start_command)],
         states={
             MAIN_MENU: [
-                MessageHandler(filters.TEXT & ~filters.COMMAND, main_menu_handler),
+                CallbackQueryHandler(main_menu_callback, pattern=r"^menu:"),
             ],
             # ── Drug browsing ──────────────────────────────────────────────────
             DRUG_CLASS_SELECT: [

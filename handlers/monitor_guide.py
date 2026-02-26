@@ -374,7 +374,7 @@ def _build_monitor_text(drug: dict, spec_info: dict | None, class_info: dict | N
 # ─── Conversation ─────────────────────────────────────────────────────────────
 
 async def start_monitor_guide(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         "🔭 *Протокол мониторинга*\n\n"
         "Введите МНН препарата:\n"
         "_Например: Клозапин, Литий, Вальпроат, Оланзапин_",

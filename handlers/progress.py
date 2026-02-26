@@ -71,7 +71,7 @@ async def show_progress(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         lines.append("\n*📚 Разделы:* _ещё не изучали_")
 
     text = "\n".join(lines)
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         text,
         parse_mode="Markdown",
         reply_markup=back_keyboard("back:main"),

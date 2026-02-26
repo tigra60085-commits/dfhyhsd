@@ -336,7 +336,7 @@ def _build_dose_text(drug: dict, dose_info: dict | None) -> str:
 # ─── Conversation ─────────────────────────────────────────────────────────────
 
 async def start_dose_calc(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         "💉 *Дозирование препаратов*\n\n"
         "Введите МНН препарата:\n"
         "_Например: Флуоксетин, Клозапин, Литий, Ламотриджин_",

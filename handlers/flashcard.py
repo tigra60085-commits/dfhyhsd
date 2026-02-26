@@ -14,7 +14,7 @@ from db.queries import rate_flashcard, update_progress
 
 
 async def show_flashcard_categories(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         "🃏 *Карточки*\n\nВыберите класс препаратов для изучения:",
         parse_mode="Markdown",
         reply_markup=flashcard_category_keyboard(DRUG_CLASSES),

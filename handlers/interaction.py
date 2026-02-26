@@ -17,7 +17,7 @@ SEVERITY_LABELS = {
 
 
 async def ask_drug1(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         "⚠️ *Проверка взаимодействий*\n\n"
         "Введите название *первого препарата* (на русском или латинском):",
         parse_mode="Markdown",

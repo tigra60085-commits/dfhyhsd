@@ -383,7 +383,7 @@ def _interpret_score(code: str, raw_score: str) -> str:
 # ─── Conversation ─────────────────────────────────────────────────────────────
 
 async def start_scale_calc(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         "📊 *Психометрические шкалы*\n\n"
         "Выберите шкалу для просмотра или интерпретации баллов:",
         parse_mode="Markdown",

@@ -1,6 +1,6 @@
 """Unit tests for keyboard factory functions."""
 
-from telegram import InlineKeyboardMarkup, ReplyKeyboardMarkup
+from telegram import InlineKeyboardMarkup
 
 from keyboards.menus import (
     main_menu_keyboard, drug_class_keyboard, quiz_category_keyboard,
@@ -13,10 +13,10 @@ class TestKeyboards:
     """Tests for keyboard factory return types and structures."""
 
     def test_main_menu_keyboard_type(self):
-        """Main menu should return ReplyKeyboardMarkup."""
+        """Main menu should return InlineKeyboardMarkup (works in all chat types including forum topics)."""
         kb = main_menu_keyboard()
-        assert isinstance(kb, ReplyKeyboardMarkup)
-        assert len(kb.keyboard) >= 9
+        assert isinstance(kb, InlineKeyboardMarkup)
+        assert len(kb.inline_keyboard) >= 9
 
     def test_drug_class_keyboard_type(self):
         """Drug class keyboard should return InlineKeyboardMarkup."""

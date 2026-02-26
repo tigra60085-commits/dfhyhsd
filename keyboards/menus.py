@@ -1,21 +1,21 @@
 """Keyboard factory functions for the psychopharmacology bot."""
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 
-def main_menu_keyboard() -> ReplyKeyboardMarkup:
+def main_menu_keyboard() -> InlineKeyboardMarkup:
     buttons = [
-        [KeyboardButton("💊 Препараты"), KeyboardButton("📝 Тест")],
-        [KeyboardButton("🃏 Карточки"), KeyboardButton("🏥 Клинические случаи")],
-        [KeyboardButton("⚠️ Взаимодействия"), KeyboardButton("🔍 Поиск")],
-        [KeyboardButton("🧠 Нейромедиаторы"), KeyboardButton("📊 Мой прогресс")],
-        [KeyboardButton("📖 Глоссарий"), KeyboardButton("💡 Совет дня")],
-        [KeyboardButton("🔬 Фарма-анализ"), KeyboardButton("🎙️ Подкаст")],
-        [KeyboardButton("📋 Кейс"), KeyboardButton("💉 Дозы")],
-        [KeyboardButton("🔭 Мониторинг"), KeyboardButton("📊 Шкалы")],
-        [KeyboardButton("🤰 Беременность"), KeyboardButton("🚫 Отмена препарата")],
+        [InlineKeyboardButton("💊 Препараты", callback_data="menu:drugs"), InlineKeyboardButton("📝 Тест", callback_data="menu:quiz")],
+        [InlineKeyboardButton("🃏 Карточки", callback_data="menu:flashcard"), InlineKeyboardButton("🏥 Клинические случаи", callback_data="menu:cases")],
+        [InlineKeyboardButton("⚠️ Взаимодействия", callback_data="menu:inter"), InlineKeyboardButton("🔍 Поиск", callback_data="menu:search")],
+        [InlineKeyboardButton("🧠 Нейромедиаторы", callback_data="menu:nt"), InlineKeyboardButton("📊 Мой прогресс", callback_data="menu:progress")],
+        [InlineKeyboardButton("📖 Глоссарий", callback_data="menu:glossary"), InlineKeyboardButton("💡 Совет дня", callback_data="menu:tip")],
+        [InlineKeyboardButton("🔬 Фарма-анализ", callback_data="menu:pharma"), InlineKeyboardButton("🎙️ Подкаст", callback_data="menu:podcast")],
+        [InlineKeyboardButton("📋 Кейс", callback_data="menu:case_fmt"), InlineKeyboardButton("💉 Дозы", callback_data="menu:dose")],
+        [InlineKeyboardButton("🔭 Мониторинг", callback_data="menu:monitor"), InlineKeyboardButton("📊 Шкалы", callback_data="menu:scale")],
+        [InlineKeyboardButton("🤰 Беременность", callback_data="menu:preg"), InlineKeyboardButton("🚫 Отмена препарата", callback_data="menu:withdraw")],
     ]
-    return ReplyKeyboardMarkup(buttons, resize_keyboard=True)
+    return InlineKeyboardMarkup(buttons)
 
 
 def drug_class_keyboard(classes: list) -> InlineKeyboardMarkup:

@@ -13,7 +13,7 @@ from db.queries import update_progress
 
 
 async def show_drug_classes(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         "💊 *Справочник препаратов*\n\nВыберите фармакологический класс:",
         parse_mode="Markdown",
         reply_markup=drug_class_keyboard(DRUG_CLASSES),

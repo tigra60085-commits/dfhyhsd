@@ -11,7 +11,7 @@ from data.glossary import GLOSSARY
 
 
 async def ask_search_query(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         "🔍 *Поиск*\n\nВведите название препарата, класс, показание или термин:",
         parse_mode="Markdown",
         reply_markup=back_keyboard("back:main"),

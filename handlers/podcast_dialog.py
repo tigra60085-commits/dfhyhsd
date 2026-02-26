@@ -27,7 +27,7 @@ from data.tips import TIPS
 # ─── Conversation ─────────────────────────────────────────────────────────────
 
 async def start_podcast(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         "🎙️ *Генератор подкаст-эпизода*\n\n"
         "Введите *тему* эпизода — название препарата, группы или клинической проблемы:\n"
         "_Примеры: «Флуоксетин», «SSRI», «Серотониновый синдром», «Антипсихотики при беременности»_",

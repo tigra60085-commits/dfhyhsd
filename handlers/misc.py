@@ -22,7 +22,7 @@ from data.drugs import DRUG_CLASSES, get_drugs_by_class
 # ─── Neurotransmitters ────────────────────────────────────────────────────────
 
 async def show_nt_select(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         "🧠 *Нейромедиаторные системы*\n\nВыберите систему для изучения:",
         parse_mode="Markdown",
         reply_markup=nt_select_keyboard(NT_NAMES),
@@ -84,7 +84,7 @@ def _format_nt(name: str, nt: dict) -> str:
 
 async def show_glossary(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     context.user_data["glossary_page"] = 0
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         "📖 *Глоссарий психофармакологии*\n\nВыберите термин:",
         parse_mode="Markdown",
         reply_markup=glossary_keyboard(GLOSSARY_TERMS, page=0),
@@ -147,7 +147,7 @@ async def glossary_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) 
 async def show_tip(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     from keyboards.menus import back_keyboard
     tip = random.choice(TIPS)
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         f"💡 *Совет дня*\n\n{tip}",
         parse_mode="Markdown",
         reply_markup=back_keyboard("back:main"),

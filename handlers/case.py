@@ -13,7 +13,7 @@ from db.queries import update_progress
 
 
 async def show_case_list(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         "🏥 *Клинические случаи*\n\nВыберите случай для разбора:",
         parse_mode="Markdown",
         reply_markup=case_list_keyboard(CASES),

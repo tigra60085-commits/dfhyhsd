@@ -331,7 +331,7 @@ def _build_withdraw_text(drug: dict, spec: dict | None, class_info: dict | None)
 # ─── Conversation ─────────────────────────────────────────────────────────────
 
 async def start_withdraw_guide(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         "🚫 *Протокол отмены препаратов*\n\n"
         "Введите МНН препарата:\n"
         "_Например: Пароксетин, Венлафаксин, Диазепам, Клозапин, Литий_",

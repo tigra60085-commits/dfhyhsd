@@ -14,7 +14,7 @@ from db.queries import record_quiz_answer, get_user_stats
 
 
 async def show_quiz_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text(
+    await update.effective_message.reply_text(
         "📝 *Тест по психофармакологии*\n\nПроверьте свои знания!",
         parse_mode="Markdown",
         reply_markup=quiz_menu_keyboard(),
