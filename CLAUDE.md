@@ -35,6 +35,7 @@ The bot requires a valid `BOT_TOKEN` in `.env` — `config.py` will raise a `Val
 | `db/` | SQLite schema creation and async query helpers (user progress, quiz scores) |
 | `keyboards/` | `InlineKeyboardMarkup` / `ReplyKeyboardMarkup` factory functions |
 | `handlers/` | One module per feature (start, drug, quiz, flashcard, case, interaction, search, progress, misc) |
+| `services/` | Business logic layer (drug service, quiz service, etc.) |
 
 **State groups in `states.py`:**
 - `MAIN_MENU` (0)
@@ -53,3 +54,6 @@ The bot requires a valid `BOT_TOKEN` in `.env` — `config.py` will raise a `Val
 - Static content (drugs, quiz questions, etc.) lives in `data/` as plain Python dicts/lists — no external CMS.
 - Keyboards are built in `keyboards/menus.py` and imported by handlers; never construct `InlineKeyboardMarkup` inline inside handlers.
 - Each handler module returns a state constant from `states.py` to drive the conversation forward.
+- Business logic is encapsulated in service classes in `services/` to separate concerns from handlers.
+- Custom exceptions are defined in `exceptions.py` for better error handling.
+- Caching is implemented using `functools.lru_cache` for static data to improve performance.

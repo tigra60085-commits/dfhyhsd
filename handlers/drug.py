@@ -7,6 +7,8 @@ from states import DRUG_CLASS_SELECT, DRUG_LIST, DRUG_INFO, DRUG_DETAIL, MAIN_ME
 from keyboards.menus import (
     drug_class_keyboard, drug_list_keyboard, drug_detail_keyboard, main_menu_keyboard
 )
+from services.drug_service import DrugService
+from exceptions import DrugNotFoundError
 from data.drugs import DRUG_CLASSES, get_drugs_by_class, get_drug_by_name
 from db.queries import update_progress
 
