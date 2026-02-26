@@ -37,7 +37,8 @@ async def flashcard_category_callback(update: Update, context: ContextTypes.DEFA
         if category == "all":
             drugs = list(DRUGS)
         else:
-            drugs = get_drugs_by_class(category)
+            drug_class = DRUG_CLASSES[int(category)]
+            drugs = get_drugs_by_class(drug_class)
 
         if not drugs:
             await query.edit_message_text("Нет препаратов в этой категории.")

@@ -20,8 +20,8 @@ def main_menu_keyboard() -> ReplyKeyboardMarkup:
 
 def drug_class_keyboard(classes: list) -> InlineKeyboardMarkup:
     buttons = []
-    for drug_class in classes:
-        buttons.append([InlineKeyboardButton(drug_class, callback_data=f"class:{drug_class}")])
+    for i, drug_class in enumerate(classes):
+        buttons.append([InlineKeyboardButton(drug_class, callback_data=f"class:{i}")])
     buttons.append([InlineKeyboardButton("⬅️ Назад", callback_data="back:main")])
     return InlineKeyboardMarkup(buttons)
 
@@ -90,8 +90,8 @@ def quiz_next_keyboard() -> InlineKeyboardMarkup:
 
 def flashcard_category_keyboard(classes: list) -> InlineKeyboardMarkup:
     buttons = []
-    for drug_class in classes:
-        buttons.append([InlineKeyboardButton(drug_class, callback_data=f"fccat:{drug_class}")])
+    for i, drug_class in enumerate(classes):
+        buttons.append([InlineKeyboardButton(drug_class, callback_data=f"fccat:{i}")])
     buttons.append([InlineKeyboardButton("🔀 Все карточки", callback_data="fccat:all")])
     buttons.append([InlineKeyboardButton("⬅️ Назад", callback_data="back:main")])
     return InlineKeyboardMarkup(buttons)
@@ -218,8 +218,8 @@ def glossary_term_keyboard() -> InlineKeyboardMarkup:
 
 def compare_select_keyboard(classes: list, step: int = 1) -> InlineKeyboardMarkup:
     buttons = []
-    for drug_class in classes:
-        buttons.append([InlineKeyboardButton(drug_class, callback_data=f"cmp{step}:{drug_class}")])
+    for i, drug_class in enumerate(classes):
+        buttons.append([InlineKeyboardButton(drug_class, callback_data=f"cmp{step}:{i}")])
     buttons.append([InlineKeyboardButton("⬅️ Назад", callback_data="back:main")])
     return InlineKeyboardMarkup(buttons)
 

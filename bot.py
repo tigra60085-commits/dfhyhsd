@@ -3,6 +3,7 @@
 import asyncio
 import logging
 
+from telegram import BotCommand
 from telegram.ext import (
     Application,
     CommandHandler,
@@ -277,6 +278,10 @@ def build_conv_handler() -> ConversationHandler:
 async def post_init(application: Application) -> None:
     await create_tables()
     logger.info("Database tables created/verified.")
+    await application.bot.set_my_commands([
+        BotCommand("start", "Запустить / перезапустить бот"),
+        BotCommand("help", "Справка по разделам"),
+    ])
 
 
 def main() -> None:

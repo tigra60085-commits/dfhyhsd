@@ -31,7 +31,8 @@ async def drug_class_callback(update: Update, context: ContextTypes.DEFAULT_TYPE
         return MAIN_MENU
 
     if data.startswith("class:"):
-        drug_class = data[len("class:"):]
+        idx = int(data[len("class:"):])
+        drug_class = DRUG_CLASSES[idx]
         drugs = get_drugs_by_class(drug_class)
         context.user_data["current_class"] = drug_class
 

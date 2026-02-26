@@ -186,7 +186,7 @@ async def compare_select1_callback(update: Update, context: ContextTypes.DEFAULT
         return MAIN_MENU
 
     if data.startswith("cmp1:"):
-        class1 = data[len("cmp1:"):]
+        class1 = DRUG_CLASSES[int(data[len("cmp1:"):])]
         context.user_data["compare_class1"] = class1
         await query.edit_message_text(
             f"Первый класс: *{class1}*\n\nВыберите *второй* класс:",
@@ -217,7 +217,7 @@ async def compare_select2_callback(update: Update, context: ContextTypes.DEFAULT
         return COMPARE_SELECT1
 
     if data.startswith("cmp2:"):
-        class2 = data[len("cmp2:"):]
+        class2 = DRUG_CLASSES[int(data[len("cmp2:"):])]
         class1 = context.user_data.get("compare_class1", "")
 
         drugs1 = get_drugs_by_class(class1)
