@@ -285,6 +285,21 @@ async def post_init(application: Application) -> None:
 
 
 def main() -> None:
+    """Основная точка входа в приложение."""
+    from functools import lru_cache
+    
+    # Кэширование статических данных
+    @lru_cache(maxsize=None)
+    def get_cached_drugs():
+        from data.drugs import DRUGS_DATA
+        return DRUGS_DATA
+
+    @lru_cache(maxsize=None)
+    def get_cached_quiz_questions():
+        from data.quiz_questions import QUIZ_QUESTIONS
+        return QUIZ_QUESTIONS
+
+    # Инициализация приложения
     app = (
         Application.builder()
         .token(BOT_TOKEN)

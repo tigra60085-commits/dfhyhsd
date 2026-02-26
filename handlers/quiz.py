@@ -9,6 +9,8 @@ from keyboards.menus import (
     quiz_menu_keyboard, quiz_category_keyboard, quiz_difficulty_keyboard,
     quiz_answer_keyboard, quiz_next_keyboard, main_menu_keyboard,
 )
+from services.quiz_service import QuizService
+from exceptions import QuizQuestionError
 from data.quiz_questions import CATEGORIES, get_filtered_questions
 from db.queries import record_quiz_answer, get_user_stats
 

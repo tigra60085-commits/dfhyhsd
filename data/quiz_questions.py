@@ -357,9 +357,16 @@ def get_questions_by_difficulty(difficulty: str) -> list:
 
 
 def get_filtered_questions(category: str = None, difficulty: str = None) -> list:
+    """Получить отфильтрованные вопросы викторины."""
+    from exceptions import QuizQuestionError
     result = QUESTIONS
+    if category and category not in CATEGORIES:
+        raise QuizQuestionError(f"Категория '{category}' не существует")
     if category:
         result = [q for q in result if q["category"] == category]
     if difficulty:
+        valid_difficulties = ["easy", "medium", "hard"]
+        if difficulty not in valid_difficulties:
+            raise QuizQuestionError(f"Уровень сложности '{difficulty}' не существует. Доступные: {valid_difficulties}")
         result = [q for q in result if q["difficulty"] == difficulty]
     return result

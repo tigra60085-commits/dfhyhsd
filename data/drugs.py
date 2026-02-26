@@ -534,7 +534,12 @@ def get_drugs_by_class(drug_class: str) -> list:
 
 
 def get_drug_by_name(name: str) -> dict | None:
-    return _DRUG_BY_NAME.get(name.lower())
+    """Получить информацию о препарате по названию."""
+    from exceptions import DrugNotFoundError
+    drug = _DRUG_BY_NAME.get(name.lower())
+    if not drug:
+        raise DrugNotFoundError(f"Препарат '{name}' не найден")
+    return drug
 
 
 def search_drugs(query: str) -> list:
