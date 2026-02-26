@@ -104,10 +104,8 @@ async def _show_card_front(query, context: ContextTypes.DEFAULT_TYPE) -> int:
     idx = context.user_data.get("fc_index", 0)
 
     if idx >= len(drugs):
-        await query.edit_message_text(
-            "🎉 Вы прошли все карточки!\n\nОтличная работа!",
-            reply_markup=main_menu_keyboard(),
-        )
+        await query.edit_message_text("🎉 Вы прошли все карточки!\n\nОтличная работа!")
+        await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
         return MAIN_MENU
 
     drug_name = drugs[idx]

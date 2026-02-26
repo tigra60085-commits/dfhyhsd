@@ -38,11 +38,8 @@ async def quiz_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
     if data == "quiz:stats":
         stats = await get_user_stats(query.from_user.id)
         text = _format_quiz_stats(stats)
-        await query.edit_message_text(
-            text,
-            parse_mode="Markdown",
-            reply_markup=main_menu_keyboard(),
-        )
+        await query.edit_message_text(text, parse_mode="Markdown")
+        await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
         return MAIN_MENU
 
     if data == "back:main":
@@ -229,11 +226,8 @@ async def _finish_quiz(query, context: ContextTypes.DEFAULT_TYPE) -> int:
         f"Правильных ответов: *{score}/{total}* ({pct}%)\n"
         f"{grade}"
     )
-    await query.edit_message_text(
-        text,
-        parse_mode="Markdown",
-        reply_markup=main_menu_keyboard(),
-    )
+    await query.edit_message_text(text, parse_mode="Markdown")
+    await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
 
     context.user_data.pop("quiz_questions", None)
     context.user_data.pop("quiz_index", None)
