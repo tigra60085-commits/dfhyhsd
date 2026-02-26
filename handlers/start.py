@@ -90,7 +90,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
 async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Global error handler — logs the error and notifies the user."""
-    logger.error("Unhandled exception: %s", context.error, exc_info=context.error)
+    logger.error(f"[ERROR_HANDLER] Unhandled exception: {type(context.error).__name__}: {context.error}", exc_info=context.error)
     if isinstance(update, Update) and update.effective_message:
         try:
             await update.effective_message.reply_text(
@@ -102,6 +102,7 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
 
 async def main_menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     text = update.message.text
+    logger.info(f"[MAIN_MENU] User {update.effective_user.id} sent: {text!r}")
 
     routing = {
         "💊 Препараты": DRUG_CLASS_SELECT,
@@ -126,11 +127,14 @@ async def main_menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) 
 
     next_state = routing.get(text)
     if next_state is None:
+        logger.warning(f"[MAIN_MENU] Unknown text from user {update.effective_user.id}: {text!r}")
         await update.message.reply_text(
             "Пожалуйста, воспользуйтесь кнопками меню.",
             reply_markup=main_menu_keyboard(),
         )
         return MAIN_MENU
+
+    logger.info(f"[MAIN_MENU] Routing {text!r} to state {next_state}")
 
     # Import handler entry points lazily to avoid circular imports
     if next_state == DRUG_CLASS_SELECT:
