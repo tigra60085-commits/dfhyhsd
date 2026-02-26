@@ -4,11 +4,15 @@ This file provides guidance to AI assistants (Claude Code and similar) working i
 
 ## Repository Overview
 
-This is a newly initialized web project repository. As of February 2026, the repository is in its early bootstrapping phase with no application source code committed yet.
+A Vanilla JS / HTML / CSS Todo application with `localStorage` persistence. No build tools or frameworks — static files served directly.
 
-**Current state:**
-- `.gitkeep` — placeholder to track the empty root directory in git
-- `.vscode/launch.json` — VS Code Chrome debugger configuration targeting `http://localhost:8080`
+**File structure:**
+```
+index.html          — entry point
+css/style.css       — all styles (CSS custom properties, flexbox)
+js/app.js           — all application logic
+.vscode/launch.json — VS Code Chrome debug config (port 8080)
+```
 
 ## Development Environment
 
@@ -46,22 +50,47 @@ Always push with tracking set:
 git push -u origin <branch-name>
 ```
 
+## Tech Stack
+
+| Area | Choice |
+|---|---|
+| Language | Vanilla JavaScript (ES2020+, `'use strict'`) |
+| Markup | HTML5 |
+| Styles | CSS3 with custom properties |
+| Build | None — static files, no bundler |
+| Package manager | None |
+| Tests | None yet |
+| Lint | None yet |
+
+## Running Locally
+
+Serve the repository root on port 8080 (matching the VS Code debug config):
+
+```bash
+# Option A — Node.js serve
+npx serve . -p 8080
+
+# Option B — Python
+python3 -m http.server 8080
+```
+
+Then open `http://localhost:8080` or press F5 in VS Code (Chrome debugger).
+
+## Application Architecture
+
+All state lives in `js/app.js`:
+- `todos` — in-memory array of `{ id, text, completed }`
+- `currentFilter` — `'all' | 'active' | 'completed'`
+
+Persistence: `localStorage` key `"todos"` (JSON). Read once on load (`loadTodos`), written after every mutation (`saveTodos`).
+
+Rendering is a full re-render on every mutation (`render()`). No virtual DOM.
+
 ## Conventions for AI Assistants
 
-1. **No source code yet** — do not assume any framework, language, or build system is in place. Ask or infer from context when development begins.
-2. **Port 8080** — the development server is expected on port 8080 based on the VS Code debug config.
-3. **Workspace root** — the web root is the repository root (`/`); keep this in mind when placing source files.
-4. **Branch targeting** — all AI-assisted changes must be committed and pushed to the designated feature branch (never directly to `main` or `master`).
-5. **Minimal footprint** — avoid creating files that aren't directly required. Prefer editing existing files over creating new ones.
-6. **Security** — do not introduce OWASP top-10 vulnerabilities; validate at system boundaries (user input, external APIs).
-
-## Future Setup Checklist
-
-When the project tech stack is decided, update this file to include:
-- [ ] Language / framework and version
-- [ ] Package manager and install command (`npm install`, `pip install -r requirements.txt`, etc.)
-- [ ] Build command
-- [ ] Test command and test runner
-- [ ] Lint / format command
-- [ ] Environment variable requirements (`.env.example`)
-- [ ] Deployment instructions
+1. **No framework** — keep everything in plain JS/HTML/CSS; do not introduce npm, bundlers, or frameworks without discussion.
+2. **Port 8080** — development server runs on port 8080.
+3. **Workspace root** — `index.html` is at the repo root; `css/` and `js/` are subdirectories.
+4. **Branch targeting** — commit and push to the designated `claude/…` feature branch; never directly to `main` or `master`.
+5. **Minimal footprint** — prefer editing existing files over creating new ones.
+6. **Security** — sanitize any user-supplied text before DOM insertion (use `textContent`, not `innerHTML`).

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo App</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <section id="app">
+    <h1>Задачи</h1>
+
+    <header class="input-row">
+      <input
+        id="new-todo"
+        type="text"
+        placeholder="Новая задача..."
+        autocomplete="off"
+        maxlength="200"
+      />
+      <button id="add-btn">Добавить</button>
+    </header>
+
+    <ul id="todo-list"></ul>
+
+    <footer id="footer" class="hidden">
+      <span id="counter"></span>
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">Все</button>
+        <button class="filter-btn" data-filter="active">Активные</button>
+        <button class="filter-btn" data-filter="completed">Выполненные</button>
+      </div>
+      <button id="clear-completed">Удалить выполненные</button>
+    </footer>
+  </section>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>
