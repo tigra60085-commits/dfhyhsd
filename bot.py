@@ -17,14 +17,13 @@ from config import BOT_TOKEN
 from db.schema import create_tables
 from states import (
     MAIN_MENU,
-    DRUG_CLASS_SELECT, DRUG_LIST, DRUG_DETAIL,
+    DRUG_CLASS_SELECT, DRUG_LIST, DRUG_INFO, DRUG_DETAIL,
     QUIZ_MENU, QUIZ_CATEGORY, QUIZ_DIFFICULTY, QUIZ_QUESTION, QUIZ_NEXT,
     FLASHCARD_CATEGORY, FLASHCARD_SHOW, FLASHCARD_RATE,
     CASE_LIST, CASE_READ, CASE_QUESTION, CASE_ANSWER,
     INTER_DRUG1, INTER_DRUG2, INTER_RESULT,
     SEARCH_INPUT, SEARCH_RESULT,
     NT_SELECT, GLOSSARY_BROWSE, PROGRESS_VIEW, TIP_VIEW,
-    COMPARE_SELECT1, COMPARE_SELECT2,
     PHARMA_COMPARE_INPUT, PHARMA_COMPARE_CONTEXT, PHARMA_COMPARE_FOCUS, PHARMA_COMPARE_AUDIENCE,
     PODCAST_TOPIC, PODCAST_CASE, PODCAST_DURATION,
     CASE_FORMAT_INPUT, CASE_FORMAT_FOCUS, CASE_FORMAT_OPTIONS,
@@ -34,7 +33,7 @@ from states import (
     PREG_DRUG, PREG_RESULT,
     WITHDRAW_DRUG, WITHDRAW_RESULT,
 )
-from handlers.start import start_command, main_menu_handler, help_command, error_handler
+from handlers.start import start_command, main_menu_handler, help_command, cancel_command, error_handler
 from handlers.drug import drug_class_callback, drug_list_callback, drug_detail_callback
 from handlers.quiz import (
     quiz_menu_callback, quiz_category_callback, quiz_difficulty_callback,
@@ -51,7 +50,6 @@ from handlers.search import search_input_message, search_result_callback
 from handlers.progress import progress_back_callback
 from handlers.misc import (
     nt_select_callback, glossary_callback, tip_back_callback,
-    compare_select1_callback, compare_select2_callback,
 )
 from handlers.pharma_compare import (
     pharma_compare_drugs_message, pharma_compare_context_message,
@@ -82,7 +80,7 @@ from handlers.admin import admin_stats_command, admin_reload_command
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    level=logging.DEBUG,
+    level=logging.INFO,
 )
 logger = logging.getLogger(__name__)
 
@@ -100,6 +98,9 @@ def build_conv_handler() -> ConversationHandler:
             ],
             DRUG_LIST: [
                 CallbackQueryHandler(drug_list_callback),
+            ],
+            DRUG_INFO: [
+                CallbackQueryHandler(drug_detail_callback),
             ],
             DRUG_DETAIL: [
                 CallbackQueryHandler(drug_detail_callback),
@@ -178,13 +179,6 @@ def build_conv_handler() -> ConversationHandler:
             # ── Tip ────────────────────────────────────────────────────────────
             TIP_VIEW: [
                 CallbackQueryHandler(tip_back_callback, pattern=r"^back:"),
-            ],
-            # ── Compare ────────────────────────────────────────────────────────
-            COMPARE_SELECT1: [
-                CallbackQueryHandler(compare_select1_callback),
-            ],
-            COMPARE_SELECT2: [
-                CallbackQueryHandler(compare_select2_callback),
             ],
             # ── Pharma-compare ─────────────────────────────────────────────────
             PHARMA_COMPARE_INPUT: [
@@ -270,6 +264,7 @@ def build_conv_handler() -> ConversationHandler:
         },
         fallbacks=[
             CommandHandler("start", start_command),
+            CommandHandler("cancel", cancel_command),
         ],
         allow_reentry=True,
     )
@@ -281,6 +276,7 @@ async def post_init(application: Application) -> None:
     await application.bot.set_my_commands([
         BotCommand("start", "Запустить / перезапустить бот"),
         BotCommand("help", "Справка по разделам"),
+        BotCommand("cancel", "Вернуться в главное меню"),
     ])
 
 
@@ -296,6 +292,7 @@ def main() -> None:
 
     # Stand-alone command handlers (work outside conversation too)
     app.add_handler(CommandHandler("help", help_command))
+    app.add_handler(CommandHandler("cancel", cancel_command))
     app.add_handler(CommandHandler("admin_stats", admin_stats_command))
     app.add_handler(CommandHandler("admin_reload", admin_reload_command))
 

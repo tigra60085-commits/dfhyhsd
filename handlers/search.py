@@ -5,6 +5,7 @@ from telegram.ext import ContextTypes
 
 from states import SEARCH_INPUT, SEARCH_RESULT, MAIN_MENU
 from keyboards.menus import search_result_keyboard, main_menu_keyboard, back_keyboard
+from handlers.rate_limiter import rate_limited
 from data.drugs import search_drugs, fuzzy_suggest
 from data.glossary import GLOSSARY
 
@@ -18,6 +19,7 @@ async def ask_search_query(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     return SEARCH_INPUT
 
 
+@rate_limited
 async def search_input_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     query_text = update.message.text.strip()
     if not query_text:
@@ -91,7 +93,6 @@ async def search_result_callback(update: Update, context: ContextTypes.DEFAULT_T
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
         return MAIN_MENU
 
     return SEARCH_RESULT

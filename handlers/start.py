@@ -8,12 +8,13 @@ from telegram.ext import ContextTypes
 from states import (
     MAIN_MENU, DRUG_CLASS_SELECT, QUIZ_MENU, FLASHCARD_CATEGORY,
     CASE_LIST, INTER_DRUG1, SEARCH_INPUT, NT_SELECT, PROGRESS_VIEW,
-    GLOSSARY_BROWSE, TIP_VIEW, COMPARE_SELECT1,
+    GLOSSARY_BROWSE, TIP_VIEW,
     PHARMA_COMPARE_INPUT, PODCAST_TOPIC, CASE_FORMAT_INPUT,
     DOSE_CALC_DRUG, MONITOR_DRUG, SCALE_SELECT, PREG_DRUG, WITHDRAW_DRUG,
 )
 from keyboards.menus import main_menu_keyboard
 from db.queries import get_or_create_user, touch_streak
+from handlers.rate_limiter import rate_limited
 
 logger = logging.getLogger(__name__)
 
@@ -79,6 +80,16 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     return MAIN_MENU
 
 
+async def cancel_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Handle /cancel — return to main menu from any state."""
+    context.user_data.clear()
+    await update.message.reply_text(
+        "Главное меню:",
+        reply_markup=main_menu_keyboard(),
+    )
+    return MAIN_MENU
+
+
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Handle /help command — works outside conversation too."""
     await update.message.reply_text(
@@ -100,6 +111,7 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
             pass
 
 
+@rate_limited
 async def main_menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     text = update.message.text
     logger.info(f"[MAIN_MENU] User {update.effective_user.id} sent: {text!r}")
@@ -122,7 +134,7 @@ async def main_menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         "🔭 Мониторинг": MONITOR_DRUG,
         "📊 Шкалы": SCALE_SELECT,
         "🤰 Беременность": PREG_DRUG,
-        "🚫 Отмена": WITHDRAW_DRUG,
+        "🚫 Отмена препарата": WITHDRAW_DRUG,
     }
 
     next_state = routing.get(text)
@@ -167,9 +179,6 @@ async def main_menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     elif next_state == TIP_VIEW:
         from handlers.misc import show_tip
         return await show_tip(update, context)
-    elif next_state == COMPARE_SELECT1:
-        from handlers.misc import show_compare_select1
-        return await show_compare_select1(update, context)
     elif next_state == PHARMA_COMPARE_INPUT:
         from handlers.pharma_compare import start_pharma_compare
         return await start_pharma_compare(update, context)

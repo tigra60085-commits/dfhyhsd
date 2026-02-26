@@ -5,6 +5,7 @@ from telegram.ext import ContextTypes
 
 from states import INTER_DRUG1, INTER_DRUG2, INTER_RESULT, MAIN_MENU
 from keyboards.menus import interaction_result_keyboard, main_menu_keyboard, back_keyboard
+from handlers.rate_limiter import rate_limited
 from data.interactions import find_interaction
 
 
@@ -25,6 +26,7 @@ async def ask_drug1(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return INTER_DRUG1
 
 
+@rate_limited
 async def inter_drug1_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     drug1 = update.message.text.strip()
     if not drug1:
@@ -41,6 +43,7 @@ async def inter_drug1_message(update: Update, context: ContextTypes.DEFAULT_TYPE
     return INTER_DRUG2
 
 
+@rate_limited
 async def inter_drug2_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     drug2 = update.message.text.strip()
     if not drug2:
@@ -87,7 +90,6 @@ async def inter_result_callback(update: Update, context: ContextTypes.DEFAULT_TY
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
         return MAIN_MENU
 
     return INTER_RESULT

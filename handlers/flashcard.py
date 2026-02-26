@@ -29,7 +29,6 @@ async def flashcard_category_callback(update: Update, context: ContextTypes.DEFA
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
         return MAIN_MENU
 
     if data.startswith("fccat:"):
@@ -67,7 +66,6 @@ async def flashcard_show_callback(update: Update, context: ContextTypes.DEFAULT_
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
         return MAIN_MENU
 
     return FLASHCARD_SHOW
@@ -93,7 +91,6 @@ async def flashcard_rate_callback(update: Update, context: ContextTypes.DEFAULT_
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
         return MAIN_MENU
 
     return FLASHCARD_RATE

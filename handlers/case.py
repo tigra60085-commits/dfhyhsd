@@ -28,7 +28,6 @@ async def case_list_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
         return MAIN_MENU
 
     if data.startswith("case:"):
@@ -142,7 +141,6 @@ async def case_answer_callback(update: Update, context: ContextTypes.DEFAULT_TYP
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
         return MAIN_MENU
 
     return CASE_ANSWER

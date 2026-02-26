@@ -20,8 +20,8 @@ for _part in _ADMIN_IDS_RAW.split(","):
 
 
 def _is_admin(user_id: int) -> bool:
-    """Return True if ADMIN_IDS is empty (open) or the user is in the set."""
-    return not ADMIN_IDS or user_id in ADMIN_IDS
+    """Return True only if user_id is explicitly listed in ADMIN_IDS."""
+    return bool(ADMIN_IDS) and user_id in ADMIN_IDS
 
 
 async def admin_stats_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:

@@ -84,5 +84,4 @@ async def progress_back_callback(update: Update, context: ContextTypes.DEFAULT_T
     await query.answer()
     if query.data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
     return MAIN_MENU

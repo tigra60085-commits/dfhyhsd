@@ -76,7 +76,6 @@ async def pharma_compare_focus_callback(update: Update, context: ContextTypes.DE
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
         return MAIN_MENU
 
     if data.startswith("pcfocus:"):
@@ -98,7 +97,6 @@ async def pharma_compare_audience_callback(update: Update, context: ContextTypes
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
         return MAIN_MENU
 
     if data == "pc:again":

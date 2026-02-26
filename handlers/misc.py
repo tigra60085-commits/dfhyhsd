@@ -37,7 +37,7 @@ async def nt_select_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
+
         return MAIN_MENU
 
     if data.startswith("nt:"):
@@ -99,7 +99,7 @@ async def glossary_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) 
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
+
         return MAIN_MENU
 
     if data == "back:glossary":
@@ -160,7 +160,7 @@ async def tip_back_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     await query.answer()
     if query.data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
+
     return MAIN_MENU
 
 
@@ -182,7 +182,7 @@ async def compare_select1_callback(update: Update, context: ContextTypes.DEFAULT
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
+
         return MAIN_MENU
 
     if data.startswith("cmp1:"):
@@ -205,7 +205,7 @@ async def compare_select2_callback(update: Update, context: ContextTypes.DEFAULT
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
+
         return MAIN_MENU
 
     if data == "cmp:again":

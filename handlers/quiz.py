@@ -44,7 +44,6 @@ async def quiz_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
         return MAIN_MENU
 
     return QUIZ_MENU

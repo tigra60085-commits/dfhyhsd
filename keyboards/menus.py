@@ -13,7 +13,7 @@ def main_menu_keyboard() -> ReplyKeyboardMarkup:
         [KeyboardButton("🔬 Фарма-анализ"), KeyboardButton("🎙️ Подкаст")],
         [KeyboardButton("📋 Кейс"), KeyboardButton("💉 Дозы")],
         [KeyboardButton("🔭 Мониторинг"), KeyboardButton("📊 Шкалы")],
-        [KeyboardButton("🤰 Беременность"), KeyboardButton("🚫 Отмена")],
+        [KeyboardButton("🤰 Беременность"), KeyboardButton("🚫 Отмена препарата")],
     ]
     return ReplyKeyboardMarkup(buttons, resize_keyboard=True)
 
@@ -28,8 +28,8 @@ def drug_class_keyboard(classes: list) -> InlineKeyboardMarkup:
 
 def drug_list_keyboard(drugs: list, drug_class: str) -> InlineKeyboardMarkup:
     buttons = []
-    for drug in drugs:
-        buttons.append([InlineKeyboardButton(drug["name"], callback_data=f"drug:{drug['name']}")])
+    for i, drug in enumerate(drugs):
+        buttons.append([InlineKeyboardButton(drug["name"], callback_data=f"drug:{i}")])
     buttons.append([InlineKeyboardButton("⬅️ Назад к классам", callback_data="back:class_select")])
     return InlineKeyboardMarkup(buttons)
 

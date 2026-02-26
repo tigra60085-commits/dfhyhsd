@@ -73,7 +73,6 @@ async def case_format_focus_callback(update: Update, context: ContextTypes.DEFAU
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
         return MAIN_MENU
 
     if data.startswith("cff:"):
@@ -97,7 +96,6 @@ async def case_format_options_callback(update: Update, context: ContextTypes.DEF
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
         return MAIN_MENU
 
     if data == "cf:again":

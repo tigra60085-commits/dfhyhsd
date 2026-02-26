@@ -399,7 +399,6 @@ async def scale_select_callback(update: Update, context: ContextTypes.DEFAULT_TY
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
         return MAIN_MENU
 
     if data == "scale:again":
@@ -419,7 +418,6 @@ async def scale_select_callback(update: Update, context: ContextTypes.DEFAULT_TY
             "Введите суммарный балл для интерпретации или выберите другую шкалу:",
             reply_markup=scale_result_keyboard(),
         )
-        await query.message.delete()
         return SCALE_INPUT
 
     return SCALE_SELECT
@@ -445,7 +443,6 @@ async def scale_result_callback(update: Update, context: ContextTypes.DEFAULT_TY
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
         return MAIN_MENU
 
     if data == "scale:again":

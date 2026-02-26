@@ -376,7 +376,6 @@ async def dose_calc_result_callback(update: Update, context: ContextTypes.DEFAUL
 
     if data == "back:main":
         await query.message.reply_text("Главное меню:", reply_markup=main_menu_keyboard())
-        await query.message.delete()
         return MAIN_MENU
 
     if data == "dc:again":
